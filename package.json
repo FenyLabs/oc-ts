@@ -1,0 +1,18 @@
+{
+  "name": "oc-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tstl",
+    "watch": "tstl --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@opct/openos": "^0.1.3",
+    "typescript-to-lua": "^1.17.0"
+  }
+}
