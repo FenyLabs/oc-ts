@@ -44,12 +44,12 @@ type position3D = { "3DPos": [number, number, number] };
 type scale = { scale: number };
 type text = { text: string };
 type viewDistance = { viewDistance: number };
-type visibleThroughObject = { visibleThroughObject: boolean };
+type visibleThroughObjects = { visibleThroughObjects: boolean };
 type size = { size: [number, number] };
 type visible = { visible: boolean };
 
 type BaseWidgetProps = visible & alpha & color;
-type Base3DWidgetProps = BaseWidgetProps & visibleThroughObject;
+type Base3DWidgetProps = BaseWidgetProps & visibleThroughObjects;
 
 export type AllWidgetProps = alpha &
   color &
@@ -59,7 +59,7 @@ export type AllWidgetProps = alpha &
   text &
   viewDistance &
   visible &
-  visibleThroughObject &
+  visibleThroughObjects &
   size;
 
 export type CubeProps = Base3DWidgetProps & position3D & viewDistance & scale;
@@ -124,3 +124,5 @@ export type Widget =
   | Rectangle
   | Quad
   | Text;
+
+export type SuperWidget = GetterSetterWithId<AllWidgetProps>;

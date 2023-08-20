@@ -1,76 +1,92 @@
-import { AllWidgetProps, CubeProps, GlassesTerminalComponent, VetexData2D, VetexData3D, Widget } from "./glasses";
+import { AllWidgetProps, CubeProps, GlassesTerminalComponent, SuperWidget, VetexData2D, VetexData3D, Widget } from "./lib/glasses";
 import * as component from "component";
 
 export default class GlassesTerminal {
-  component: GlassesTerminalComponent;
+
+  public static fromUsername(username: string): GlassesTerminal {
+    let success: GlassesTerminalComponent | null = null;
+    for (const [address, type] of component.list()) {
+      if (type === "glasses" && component.invoke(address, "getBindPlayers") === username) {
+        success = component.proxy(address);
+        break;
+      }
+    }
+    if (!success) {
+      throw new Error(`No glasses terminal found for ${username}`);
+    }
+    return new GlassesTerminal(success);
+  }
+
+  private component: GlassesTerminalComponent;
 
   constructor(component: GlassesTerminalComponent, clear = true) {
     this.component = component;
+    clear && this.removeAll();
   }
 
   addCube(props: Partial<CubeProps>) {
     const widget = this.component.addCube3D();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addDot(props: Partial<CubeProps>) {
     const widget = this.component.addDot3D();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addFloatingText(props: Partial<CubeProps>) {
     const widget = this.component.addFloatingText();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addLine(props: Partial<CubeProps>, vertexData: VetexData3D) {
     const widget = this.component.addLine3D();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addQuad(props: Partial<CubeProps>, vertexData: VetexData3D) {
     const widget = this.component.addQuad3D();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addTriangle(props: Partial<CubeProps>, vertexData: VetexData3D) {
     const widget = this.component.addTriangle3D();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addDot2D(props: Partial<CubeProps>) {
     const widget = this.component.addDot();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addTriangle2D(props: Partial<CubeProps>, vertexData: VetexData2D) {
     const widget = this.component.addTriangle();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addRect(props: Partial<CubeProps>) {
     const widget = this.component.addRect();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addQuad2D(props: Partial<CubeProps>, vertexData: VetexData2D) {
     const widget = this.component.addQuad();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
   addTextLabel(props: Partial<CubeProps>) {
     const widget = this.component.addTextLabel();
-    GlassesTerminal.setWidgetProps(widget, props);
+    this.setWidgetProps(widget, props);
     return widget;
   }
 
@@ -82,13 +98,13 @@ export default class GlassesTerminal {
     this.component.removeAll();
   }
 
-  private static setWidgetProps(widget: Widget, props: Partial<AllWidgetProps>) {
+  private setWidgetProps(widget: Widget, props: Partial<AllWidgetProps>) {
     for (const entry of (Object.entries(props) as Entries<AllWidgetProps>)) {
-      this.setWidgetProp(widget, entry);
+      this.setWidgetProp(widget as SuperWidget, entry);
     }
   }
 
-  private static setWidgetProp(widget: any, [key, value]: [string, any]) {
+  private setWidgetProp(widget: SuperWidget, [key, value]: Entry<AllWidgetProps>) {
     switch (key) {
       case "alpha":
         widget.setAlpha(value);
@@ -114,11 +130,11 @@ export default class GlassesTerminal {
       case "visible":
         widget.setVisible(value);
         break;
-      case "visibleThroughObject":
+      case "visibleThroughObjects":
         widget.setVisibleThroughObjects(value);
         break;
       case "size":
-        widget.setSize(value);
+        widget.setSize(...value);
         break;
     }
   }
