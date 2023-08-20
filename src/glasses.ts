@@ -19,7 +19,7 @@ export interface GlassesTerminalComponent {
   addQuad(): Quad;
   addTextLabel(): Text;
 
-  removeObject(id: number): void;
+  removeObject(this: void, id: number): void;
   removeAll(): void;
 }
 
@@ -81,17 +81,17 @@ export type TextProps = BaseWidgetProps & position & scale & text;
 
 type LookingAtFunctions = {
   getLookingAt(): LuaMultiReturn<[number, number, number, boolean]>;
-  setLookingAt(activated: boolean): void;
-  setLookingAt(x: number, y: number, z: number): void;
+  setLookingAt(this: void, activated: boolean): void;
+  setLookingAt(this: void, x: number, y: number, z: number): void;
 };
 
 type Vertex2DFunctions = {
-  setVertex(index: number, x: number, y: number): void;
+  setVertex(this: void, index: number, x: number, y: number): void;
   getVertexCount(): number;
 };
 
 type Vertex3DFunctions = {
-  setVertex(index: number, x: number, y: number, z: number): void;
+  setVertex(this: void, index: number, x: number, y: number, z: number): void;
   getVertexCount(): number;
 };
 
