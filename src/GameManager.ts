@@ -5,8 +5,6 @@ import * as component from "component";
 
 const uptime = (computer as ComputerWithUptime).uptime;
 
-const startupTime = 5;
-
 enum GameState {
   Unstarted,
   Starting,
@@ -45,7 +43,7 @@ export default class GameManager {
       const player = this.players[Math.floor(Math.random() * this.players.length)];
       if (!player.impostor) {
         player.impostor = true;
-        player.killTimer = uptime() + startupTime;
+        player.killTimer = uptime() + this.config.startupTime;
         impostors--;
       }
     }
@@ -54,8 +52,6 @@ export default class GameManager {
     const redstone = component.redstone;
     redstone.setWirelessFrequency(this.config.playerSpeed);
     redstone.setWirelessOutput(true);
-
-    
   }
 }
 
@@ -72,6 +68,7 @@ const defaultConfig: GameConfig = {
   machineTasks: 1,
   craftingTasks: 2,
   miscTasks: 2,
+  startupTime: 5,
 };
 
 export interface GameConfig {
@@ -87,4 +84,5 @@ export interface GameConfig {
   machineTasks: number;
   craftingTasks: number;
   miscTasks: number;
+  startupTime: number;
 }

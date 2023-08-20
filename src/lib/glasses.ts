@@ -95,8 +95,8 @@ type Vertex3DFunctions = {
   getVertexCount(): number;
 };
 
-export type VetexData2D = [number, number][];
-export type VetexData3D = [number, number, number][];
+export type VertexData2D = [number, number][];
+export type VertexData3D = [number, number, number][];
 
 export type Cube = GetterSetterWithId<CubeProps> & LookingAtFunctions;
 export type Dot3D = GetterSetterWithId<Dot3DProps>;
