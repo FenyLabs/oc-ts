@@ -2,6 +2,8 @@ import Player from "./PlayerManager";
 import { ComputerWithUptime } from "./lib/hasuptime";
 import * as computer from "computer";
 import * as component from "component";
+import GlassesTerminal, { TrackedWidget } from "./GlassesTerminal";
+import { Widget } from "./lib/glasses";
 
 const uptime = (computer as ComputerWithUptime).uptime;
 
@@ -10,7 +12,7 @@ enum GameState {
   Starting,
   Playing,
   Meeting,
-  Ended
+  Ended,
 }
 
 export default class GameManager {
@@ -27,7 +29,7 @@ export default class GameManager {
   }
 
   removePlayer(username: string) {
-    this.players = this.players.filter(p => p.username !== username); 
+    this.players = this.players.filter((p) => p.username !== username);
   }
 
   updateConfig(config: Partial<GameConfig>) {
@@ -40,7 +42,8 @@ export default class GameManager {
     // choose impostors
     let impostors = this.config.impostors;
     while (impostors > 0) {
-      const player = this.players[Math.floor(Math.random() * this.players.length)];
+      const player =
+        this.players[Math.floor(Math.random() * this.players.length)];
       if (!player.impostor) {
         player.impostor = true;
         player.killTimer = uptime() + this.config.startupTime;
@@ -63,7 +66,7 @@ const defaultConfig: GameConfig = {
   emergencyCooldown: 15,
   discussionTime: 15,
   votingTime: 120,
-  playerSpeed: 0,
+  playerSpeed: 1,
   killCooldown: 30,
   machineTasks: 1,
   craftingTasks: 2,

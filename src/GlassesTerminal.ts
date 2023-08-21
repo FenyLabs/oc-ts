@@ -145,3 +145,8 @@ type Entry<T> = {
 }[keyof T];
 
 type Entries<T> = Entry<T>[];
+
+export interface TrackedWidget {
+  widget: t.Widget;
+  terminal: GlassesTerminal;
+}
